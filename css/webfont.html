@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>웹폰트</title>
+
+    <!--
+        아이콘을 사용하기 위해 제조업체에서 제공하는 CDN을 사용
+        (CDN : Content Delivery Network, 파일을 배포하는 주소)
+
+        장점
+        - 업데이트가 자동으로 이루어진다
+        - 어느 위치에서나 비슷한 속도가 나옴(CDN 배포 업체의 성능에 따라 다름)
+        단점
+        - CDN 업체에 의존적
+        - 인터넷 연결이 반드시 필요
+    -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
+    <link rel="stylesheet" type="text/css" href="reset.css">
+    <link rel="stylesheet" type="text/css" href="commons.css">
+    <link rel="stylesheet" type="text/css" href="test.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+        html {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-500">
+        <div class="row">
+            <h1>Web Font 예제</h1>
+        </div>
+        <div class="row">
+            ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
+            abcdefghijklmnopqrstuvwxyz<br>
+            0123456789<br>
+            가나다라마바사아자차카타파하
+        </div>
+    </div>
+</body>
+</html>

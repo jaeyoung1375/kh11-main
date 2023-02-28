@@ -1,0 +1,35 @@
+package loop;
+
+import java.util.Scanner;
+
+public class Test09_3 {
+	public static void main(String[] args) {
+		
+		//입력
+		Scanner sc = new Scanner(System.in);
+		System.out.println("숫자 입력");
+		int number = sc.nextInt();
+		sc.close();
+		
+		int count = 0;
+		
+		//처리
+		for(int i=1; i<=number; i++) {
+			System.out.println(i+"로 나눈 나머지 = " + number % i);
+			if(number % i == 0) {
+				count++;
+			}
+		}
+		
+		System.out.println("나누어 떨어지는 숫자 개수 = " + count);
+		
+		//출력
+		if(count == 2) {
+			System.out.println(number+" : 소수입니다");
+		}
+		else {
+			System.out.println(number+" : 소수가 아닙니다");
+		}
+		
+	}
+}

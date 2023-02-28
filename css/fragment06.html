@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 작성 화면</title>
+    <link rel="stylesheet" type="text/css" href="commons.css">
+    <style>
+        body[test] div {
+            border: 1px dotted gray;
+        }
+
+        /*
+            textarea는 리사이즈(resize)에 대한 설정이 필요하다
+            - resize:vertical 은 수직 변경만 가능
+            - resize:none 은 변경 불가
+
+            만약 resize가 vertical이면 최소높이(min-height)가 지정되어야 한다
+        */
+        textarea.form-input {
+            resize: vertical;
+            min-height: 10em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-700 mt-50 mb-50">
+        <div class="row">
+            <h1>게시글 작성</h1>
+        </div>
+        <div class="row mb-40">
+            타인에 대한 과도한 비방 등은 예고 없이 삭제될 수 있습니다.
+        </div>
+        <div class="row">
+            <label class="form-label w-100">말머리</label>
+            <select name="boardHead" class="form-input w-20">
+                <option value="">없음</option>
+                <option>공지</option>
+                <option>정보</option>
+                <option>유머</option>
+            </select>
+        </div>
+        <div class="row">
+            <label>제목</label>
+            <input type="text" name="boardTitle" required
+                class="form-input w-100" placeholder="최대 한글 100자까지 가능">
+        </div>
+        <div class="row">
+            <label>내용</label>
+            <!-- 
+                textarea 디자인 시 cols는 width와 충돌이 발생하므로 하나만 사용
+                rows 역시 줄이는 것이 가능하므로 디자인 적인 가치가 별로 없다 
+            -->
+            <textarea name="boardContent" required
+                class="form-input w-100" style="min-height: 300px;"></textarea>
+        </div>
+        <div class="row">
+            <button type="submit" class="form-btn positive w-100">작성하기</button>
+        </div>
+        <hr>
+        <div class="row">
+            <a href="list" class="form-btn neutral w-100">목록보기</a>
+        </div>
+    </div>
+</body>
+</html>
