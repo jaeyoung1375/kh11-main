@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+
+        function changeRed(){
+            var target = document.querySelector("h1");
+            target.style= "color:red";
+        } 
+        function changeBlue(){
+            var target = document.querySelector("h1");
+            target.style= "color:blue";
+        }   
+    </script>
+</head>
+<body>
+    <h1>Hello Javascript</h1>
+    <button onclick="changeRed();">빨강</button>
+    <button onclick="changeBlue();">파랑</button>
+</body>
+</html>
