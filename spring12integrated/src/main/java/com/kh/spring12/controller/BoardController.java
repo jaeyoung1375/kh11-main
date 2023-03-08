@@ -187,6 +187,19 @@ public class BoardController {
 		return "redirect:/board/list";//절대경로
 	}
 	
+	// 관리자를 위한 전체 삭제 기능
+	// - boardNo=1&boardNo=2&boardNo=3 형태로 전송됨
+	// - List<Integer> 형태로 수신하거나 int[] 형태로 수신해야 함
+	// - @RequestParam에 value를 적으면 수신이름을 별도로 지정할 수 있음
+	@PostMapping("/deleteAll")
+	public String deleteAll(@RequestParam(value="boardNo") List<Integer> list) {
+		for(int boardNo : list) {
+			boardDao.delete(boardNo);
+		}
+		return "redirect:list";
+	}
+	
+	
 	@GetMapping("/delete/{boardNo}")
 	public String delete2(@PathVariable int boardNo) {
 		boardDao.delete(boardNo);

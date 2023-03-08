@@ -5,6 +5,38 @@
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<c:if test="${sessionScope.memberLevel == '관리자'}">
+<script>
+	function checkAll(){
+		var allCheckbox = document.querySelector(".check-all");
+		var checkboxes = document.querySelectorAll("[type=checkbox][name=boardNo]");
+		for(var i = 0; i<checkboxes.length; i++){
+			checkboxes[i].checked = allCheckbox.checked;
+		}
+	}
+	function checkUnit(){
+		var allCheckbox = document.querySelector(".check-all");
+		var checkboxes = document.querySelectorAll("[type=checkbox][name=boardNo]");
+		var count = 0;
+		for(var i = 0; i<checkboxes.length; i++){
+			if(checkboxes[i].checked){
+				count++;
+			}
+		}
+		allCheckbox.checked =(checkboxes.length == count);
+	}
+	function formCheck(){
+		var checkboxes = document.querySelectorAll("[type=checkbox][name=boardNo]:checked");
+		if(checkboxes.length == 0) return false;
+		
+		var choice = confirm("정말 삭제하시겠습니까?");
+		if(choice == false) return false;
+		
+		// return confirm("정말 삭제하시겠습니까?");
+	}
+</script>
+</c:if>
+
 <div class="container-900">
     <div class="row center">
         <h1>자유 게시판</h1>
@@ -12,13 +44,26 @@
     <div class="row center">
         남을 비방하는 경우 예고 없이 삭제될 수 있습니다
     </div>
+    <c:if test="${sessionScope.memberLevel == '관리자'}">
+    <form action="deleteAll" method="post" onsubmit="return formCheck();">
+    </c:if>
+    
     <div class="row right">
+    <c:if test="${sessionScope.memberLevel == '관리자'}">
+    	<button type="submit" class="form-btn negative">삭제</button>
+    </c:if>
         <a href="write" class="form-btn positive">글쓰기</a>
     </div>
     <div class="row">
         <table class="table table-border">
             <thead>
                 <tr>
+                <!-- 전체 선택 체크박스를 배치 -->
+                <c:if test="${sessionScope.memberLevel == '관리자'}">
+                <th>
+                	<input type="checkbox" class="check-all" onchange="checkAll();">
+                </th>
+                </c:if>
                     <th>번호</th>
                     <th class="w-40">제목</th>
                     <th class="left">작성자</th>
@@ -32,6 +77,7 @@
             	<!-- 공지사항을 출력 -->
 				<c:forEach var="boardDto" items="${noticeList}">
 				<tr style="background-color:#eee">
+					
 					<td>${boardDto.boardNo}</td>
 					<td class="left">
 						<!-- 제목을 누르면 상세로 이동 -->
@@ -58,6 +104,12 @@
 				<!-- 검색 또는 목록 결과를 출력 -->
 				<c:forEach var="boardDto" items="${list}">
 				<tr>
+				<!-- 개별 선택 체크박스를 배치 -->
+				<c:if test="${sessionScope.memberLevel == '관리자'}">
+				<td>
+					<input type="checkbox" name="boardNo" value="${boardDto.boardNo}" onchange="checkUnit();">
+				</td>
+				</c:if>
 					<td>${boardDto.boardNo}</td>
 					<td class="left">
 						<!-- boardDepth만큼 띄어쓰기를 실시 -->
@@ -93,8 +145,12 @@
         </table>
     </div>
     <div class="row right">
+    <c:if test="${sessionScope.memberLevel == '관리자'}">
+    <button type="submit" class="form-btn negative">삭제</button>
+    </c:if>
         <a href="write" class="form-btn positive">글쓰기</a>
     </div>
+    </form>
     <div class="row pagination">
     
     	<!-- 처음 -->
