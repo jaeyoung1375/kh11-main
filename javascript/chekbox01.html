@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <title>Document</title>
+
+    <script>
+        function testFunction1(){
+            // console.log("체크감지됨");
+            var checkbox = document.querySelector("[name=agree]");
+            // console.log(checkbox.checked);
+            // console.log(checkbox.parentNode);
+            var label = checkbox.parentNode;
+            label.style.color = checkbox.checked ? 'black' : 'gray';
+        }
+    </script>
+</head>
+<body>
+    <div class="container-500">
+        <div class="row center">
+            <h1>체크박스 제어</h1>
+        </div>
+        <div class="row">
+            <label>
+            <input type="checkbox" name="agree" value="hello" onchange="testFunction1();">
+            동의합니다
+        </label>
+        </div>
+    </div>
+</body>
+</html>

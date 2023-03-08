@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <title>Document</title>
+    <script>
+        function checkFunction(){
+            var checkbox = document.querySelector("[name=agree]");
+            var label = checkbox.parentNode;
+            var btn = document.querySelector("button");
+            console.log(checkbox.checked);
+            if(checkbox.checked){
+                btn.disabled = false;
+            }else{
+                btn.disabled = true;
+            }
+            
+        }
+    </script>
+</head>
+<body>
+    <form>
+    <div class="container-500">
+        <div class="row center">
+            <h1>회원정보에 대한 이용약관</h1>
+        </div>
+        <div class="row">
+            <textarea class="form-input w-100" readonly></textarea>
+        </div>
+        <div class="row">
+            <label>
+                <input type="checkbox" name="agree" onchange="checkFunction();">
+                동의합니다
+            </label>
+        </div>
+        <div class="row">
+            <button class="form-btn w-100" disabled >다음 단계로 이동</button>
+        </div>
+    </div>
+</form>
+</body>
+</html>
