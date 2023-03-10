@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <title>Document</title>
+    <script>
+        // 목표 : 버튼에 onclick안쓰고 누르면 hello 출력하기
+
+        // window.onload는 화면이 모두 로딩되면 설정된 함수를 실행
+        // (문제) 여러 번 설정하면 뒤 내용이 앞 내용을 덮어쓰기함
+        window.onload = function(){
+            var button = document.querySelector("button");
+            // console.log(button);
+
+            // 버튼에 onclick을 적고 함수를 부르는 것이 아니라
+            // onclick에 실행할 함수를 넣어놓는다
+            button.onclick = function(){
+                confirm("안녕");
+            };
+        }
+       
+    </script>
+</head>
+<body>
+    <div class="container-600">
+        <div class="row center">
+            <h1>제목</h1>
+        </div>
+        <div class="row">
+            <button class="form-btn">hello</button>
+        </div>
+    </div>
+</body>
+</html>

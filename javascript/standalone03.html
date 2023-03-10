@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <title>Document</title>
+
+    <script>
+
+        window.addEventListener("load",function(){
+
+            var redBtn = document.querySelector(".red");
+            var blueBtn = document.querySelector(".blue");
+            var target = document.querySelector("#target"); 
+
+            redBtn.addEventListener("click",function(){ 
+                target.style.color="red";     
+            });
+            blueBtn.addEventListener("click",function(){ 
+                target.style.color="blue";
+  
+            });
+
+
+        });
+
+      
+    </script>
+</head>
+<body>
+    <h1 id="target">Hello Javascript</h1>
+    <button class="red">빨강</button>
+    <button class="blue">파랑</button>
+</body>
+</html>

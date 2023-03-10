@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <title>Document</title>
+    <script>
+
+        function purchase(){
+            var checkboxes = document.querySelectorAll("[name=fruit]:checked");
+            var total = 0;
+            for(var i = 0; i<checkboxes.length; i++){
+                total += parseInt(checkboxes[i].value);
+            }
+
+            var result = document.querySelector(".total-price");
+            result.textContent = total;
+            
+        }
+
+
+        function checkFunction(){
+
+         var checkboxes = document.querySelectorAll(".check-unit");
+        var count = 0;
+    
+        var btn = document.querySelector("button");
+
+        for(var i = 0; i<checkboxes.length; i++){
+            if(checkboxes[i].checked){
+                count++;
+            }else{
+                count--;
+            }
+        }
+       
+        if(count > 0){
+            btn.disabled = false;
+            console.log(count);
+        }else{
+            btn.disabled = true;
+        }
+    }
+    </script>
+</head>
+<body>
+    <div class="container-500">
+        <div class="row center">
+            <h1>문제</h1>
+        </div>
+        <div class="row">
+            <label>
+                <input type="checkbox">
+                전체선택
+            </label>
+        </div>
+        <hr>
+        <div class="row">
+            <label>
+                <input type="checkbox" name="fruit" value="500" class="check-unit" onclick="checkFunction();">
+                사과 (500원)
+            </label>
+        </div>
+        <div class="row">
+            <label>
+                <input type="checkbox" name="fruit" value="1000" class="check-unit" onclick="checkFunction();">
+                오렌지 (1000원)
+            </label>
+        </div>
+        <div class="row">
+            <label>
+                <input type="checkbox" name="fruit" value="2000" class="check-unit" onclick="checkFunction();">
+                파인애플 (2000원)
+            </label>
+        </div>
+        <hr>
+        <div class="row">
+            <button class="form-btn w-100" disabled>구매하기</button>
+        </div>
+        <div class="row">
+            <label>예상금액<span class="total-price" onclick="purchase();"></span></label>
+        </div>
+    </div>
+</body>
+</html>

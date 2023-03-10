@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <title>Document</title>
+    <script>
+        function CheckAllFunction(){
+            var allCheckbox = document.querySelector(".check-all");
+            var checkboxes = document.querySelectorAll(".check-unit");
+
+            for(var i = 0; i<checkboxes.length; i++){
+            checkboxes[i].checked = allCheckbox.checked;
+
+            }
+            checkFunction();
+
+        // var Allcheck = document.querySelector("[name=agreeAll]");
+        // var list = document.querySelectorAll("[name=agree]");
+        // var btn = document.querySelector("button");
+
+        // if(Allcheck.checked){
+        //     btn.disabled = false;
+        // }else{
+        //     btn.disabled = true;
+        //     for(var i = 0; i<list.length; i++){
+        //         list[i].checked = false;
+        //     }
+        // }
+
+        // for(var i = 0; i<list.length; i++){
+        //     list[i].checked = true;
+        // }
+    }
+
+
+    function checkFunction(){
+        var checkboxes = document.querySelectorAll(".check-unit");
+        var count = 0;
+
+        var btn = document.querySelector("button");
+        for(var i = 0; i<checkboxes.length; i++){
+            if(checkboxes[i].checked){ // 체크 되었다면
+                count++;
+            }else{
+                count--;
+            }
+        }
+        if(count == checkboxes.length){
+            btn.disabled = false;
+        }else{
+            btn.disabled = true;
+        }
+
+    }
+
+
+    </script>
+</head>
+<body>
+        <div class="container-500">
+            <div class="row center">
+                <h1>이용약관</h1>
+            </div>
+            <div class="row center">
+                <textarea class="form-input w-100" readonly>ㅁㄴㅇㄹ</textarea>
+            </div>
+            <div class="row ">
+                <label>
+                    <input type="checkbox" name="agree" onclick="checkFunction();" class="check-unit">
+                    동의합니다
+                </label>
+            </div>
+
+            <div class="row center">
+                <textarea class="form-input w-100" readonly>ㅁㄴㅇㄹ</textarea>
+            </div>
+            <div class="row ">
+                <label>
+                    <input type="checkbox" name="agree" onclick="checkFunction();" class="check-unit">
+                    동의합니다
+                </label>
+            </div>
+            <hr>
+            <label>
+                <input type="checkbox" name="agreeAll" onclick="CheckAllFunction();" class="check-all">
+                전체 동의하기
+            </label>
+            <div class="row">
+                <button class="form-btn w-100" disabled >다음 단계로 이동</button>
+            </div>
+
+            
+
+        </div>
+</body>
+</html>

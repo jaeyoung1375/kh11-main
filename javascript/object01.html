@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <title>Document</title>
+    <script>
+        /*
+            내장객체란 프로그래밍 언어에서 기본적으로 제공하는 도구를 말한다
+            자바스크립트가 클라이언트용이냐 서버용이냐에 따라 최상위 객체가 다름
+            - 클라이언트용에서는 window가 최상위 객체
+            - 서버에서는 process가 최상위 객체
+        */
+        function window01(){
+            window.alert("알림창입니다");
+        }
+        function window02(){
+            var choice = window.confirm("확인");
+            console.log(choice);
+        }
+
+        function window03(){
+            var input = window.prompt("입력창입니다");
+            
+        }
+
+        function window04(){
+            window.open("https://www.naver.com");
+        }
+        
+        function window05(){
+            window.open("https://www.naver.com","naver","width=500,height=500");
+        }
+        /*
+            주소 객체(window.location)
+            - 주소창과 새로고침 버튼을 담당하는 내장객체
+        */
+        function location01(){
+            location.href ="https://www.google.com";
+        }
+
+        function location03(tag){
+            console.log(tag);
+            console.log(tag.dataset.url);
+
+            location.href = tag.dataset.url;
+        }
+        function history01(){
+            // console.log(window.history);
+            history.back();
+        }
+        function document01(){
+            var tag = document.querySelector("#dummy");
+            tag.style.color ="red";
+        }
+    </script>
+</head>
+<body>
+    <div class="container-600">
+        <div class="row center">
+            <h1>내장객체</h1>
+        </div>
+        <div class="row">
+            <h2>창 제어(window)</h2>
+        </div>
+        <div class="row">
+            <button class="form-btn" onclick="window01();">알림창</button>
+            <button class="form-btn" onclick="window02();">확인창</button>
+            <button class="form-btn" onclick="window03();">입력창</button>
+        </div>
+        <div class="row">
+            <button class="form-btn" onclick="window04();">새탭</button>
+            <button class="form-btn" onclick="window05();">새창</button> 
+        </div>
+        <div class="row">
+            <h1>주소 제어</h1>
+        </div>
+        <div class="row">
+            <button class="form-btn" onclick="location01();">
+                구글로 이동
+            </button>
+            <button class="form-btn" onclick="location.href='http://www.google.com'">
+                구글로 이동
+            </button>
+            <button class="form-btn" onclick="location03(this);" data-url="https://www.google.com">
+                구글로 이동
+            </button>
+            <button class="form-btn" onclick="location03(this);" data-url="https://www.naver.com">
+                네이버로 이동
+            </button>
+        </div>
+
+        <div class="row">
+            <h2>이력 제어(history)</h2>
+        </div>
+        <div class="row">
+            <button class="form-btn" onclick="history01();">
+                뒤로가기
+            </button>
+        </div>
+        <div class="row">
+            <h2>문서 객체(document)</h2>
+        </div>
+        <div class="row">
+            <button class="form-btn" onclick="document01();">선택</button>
+        </div>
+        <div class="row">
+            <h1 id="dummy" class="temp">선택될 대상</h1>
+        </div>
+    </div>
+</body>
+</html>
