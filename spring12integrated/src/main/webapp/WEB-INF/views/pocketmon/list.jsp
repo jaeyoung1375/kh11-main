@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+    <script src="https://cdn.jsdelivr.net/gh/jaeyoung1375/confirm-link@0.0.1/confirm-link.js"></script>
+
 
 <h1>포켓몬 목록/검색</h1>
 
@@ -45,7 +47,7 @@
 			<td>${pocketmonDto.type}</td>
 			<td>
 				<a href="edit?no=${pocketmonDto.no}">수정</a>
-				<a href="delete?no=${pocketmonDto.no}">삭제</a>
+				<a href="delete?no=${pocketmonDto.no}" class="confirm-link" data-message="삭제">삭제</a>
 			</td>
 		</tr>
 		</c:forEach>

@@ -37,6 +37,9 @@
 		<tr>
 			<td>
 				좋아요 ${boardDto.boardLike}
+				<!-- 하트자리 -->
+				<i class="fa-solid fa-heart"></i>
+				<i class="fa-regular fa-heart"></i>
 				댓글 ${boardDto.boardReply}
 			</td>
 		</tr>
