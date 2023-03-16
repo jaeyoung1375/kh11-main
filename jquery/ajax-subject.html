@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <title>Document</title>
+    <!-- jquery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(function(){
+
+            loadList();
+
+            function loadList(){
+            $.ajax({
+                url : "http://localhost:8080/rest/subject/",
+                success : function(response){
+                    $(".target").empty();
+                    for(var i = 0; i<response.length; i++){
+                        var template = $("#subject-template").html();
+                        var html = $.parseHTML(template);
+
+                        $(html).find(".no").text(response[i].no);
+                        $(html).find(".name").text(response[i].name);
+                        $(html).find(".period").text(response[i].period);
+                        $(html).find(".price").text(response[i].price);
+                        $(html).find(".type").text(response[i].type);
+                        $(html).find(".delete-btn").attr("data-no",response[i].no);
+                        $(html).find(".edit-btn").attr("data-no",response[i].no);
+
+                        
+                        $(html).find(".delete-btn").click(function(){
+                            var choice = window.confirm("정말 삭제하시겠습니까?");
+                            if(!choice) return;
+                       
+                            var no = $(this).attr("data-no");
+
+                        $.ajax({
+                            url:"http://localhost:8080/rest/subject/"+no,
+                            method:"delete",
+                            success:function(response){
+                                loadList();
+                            },
+                            error:function(){
+                                widnow.alert("통신 오류");
+                            },
+                        });
+                        
+                    });
+                        $(".target").append(html);
+                    }
+                }
+            });
+        }
+              
+            //백그라운드 데이터
+            var valid = {
+                nameValid:false,
+                periodValid:false,
+                priceValid:false,
+                typeValid:false,
+
+                //ES5(구버전) - 반드시 함수 형태로 호출
+                isAllValid:function(){
+                    return this.nameValid && this.periodValid
+                            && this.priceValid && this.typeValid;
+                },
+                //ES6(신버전) - 외부에서 변수처럼 호출
+                get allValid() {
+                    return this.nameValid && this.periodValid
+                            && this.priceValid && this.typeValid;
+                }
+            };
+
+            //입력창 컨트롤 - valid에 결과를 설정하는 것이 목표
+            $("[name=name]").blur(function(){
+                var regex = /^[가-힣A-Za-z0-9\s]{1,20}$/;
+                valid.nameValid = regex.test($(this).val());
+
+                $(this).removeClass("valid invalid")
+                        .addClass(valid.nameValid ? "valid" : "invalid");
+            });
+            $("[name=period]").blur(function(){
+                var period = parseInt($(this).val());
+                valid.periodValid = period > 0 && period % 30 == 0;
+
+                $(this).removeClass("valid invalid")
+                        .addClass(valid.periodValid ? "valid" : "invalid");
+            });
+            $("[name=price]").blur(function(){
+                var regex = /^[0-9]+$/;
+                valid.priceValid = regex.test($(this).val());
+
+                $(this).removeClass("valid invalid")
+                        .addClass(valid.priceValid ? "valid" : "invalid");
+            });
+            $("[name=type]").change(function(){
+                var regex = /^(온라인|오프라인|혼합)$/;
+                valid.typeValid = regex.test($(this).val());
+
+                $(this).removeClass("valid invalid")
+                        .addClass(valid.typeValid ? "valid" : "invalid");
+            });
+
+            //폼 컨트롤 - valid에 설정된 결과를 활용하여 전송 여부를 판정
+            $(".input-form").submit(function(e){
+                e.preventDefault();
+
+                //if(valid.isAllValid() == false) return;//ES5
+                if(valid.allValid == false) return;//ES6
+
+                var data = $(this).serialize();
+
+                //비동기통신
+                $.ajax({
+                    url:"http://localhost:8080/rest/subject/",
+                    method:"post",
+                    data:data,
+                    success:function(response){
+                        $(".input-form").get(0).reset();
+                        $("[name]").removeClass("valid invalid");
+                        loadList();
+                    },
+                    error:function(){
+                        alert("오류 발생");
+                    },
+                });
+            });
+           
+        });
+    </script>
+    <script type="text/template" id="subject-template">
+        <tr class="subject">
+            
+            <td class="name">이상해씨</td>
+            <td class="peroid">90</td>
+            <td class="price">100000</td>
+            <td class="type">온라인</td>
+            <td>
+                <a href="#" class="link edit-btn">수정</a>
+                <a href="#" class="link delete-btn">삭제</a>
+            </td>
+        </tr>
+    </script>
+</head>
+<body>
+    <div class="container-600">
+        <div class="row center">
+            <h1>Subject</h1>
+        </div>
+
+        <div class="flex-box">
+            <div class="w-40">
+                <form autocomplete="off" class="input-form">
+                    <div class="row">
+                        <label>과목명</label>
+                        <input type="text" class="form-input w-100" name="name">
+                        <!-- <div class="valid-message">올바른 과정명입니다</div>
+                        <div class="invalid-message">한글,영어,숫자,띄어쓰기만 가능</div> -->
+                    </div>
+                    <div class="row">
+                        <label>강의시간</label>
+                        <input type="text" class="form-input w-100" name="period">
+                    </div>
+                    <div class="row">
+                        <label>수강료</label>
+                        <input type="text" class="form-input w-100" name="price">
+                    </div>
+                    <div class="row">
+                        <label>강의유형</label>
+                        <select name="type" class="form-input w-100">
+                            <option value="">선택하세요</option>
+                            <option>오프라인</option>
+                            <option>온라인</option>
+                            <option>혼합</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <button class="form-btn positive">
+                            <i class="fa-solid fa-plus"></i>
+                            등록
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="w-60 p-10">
+            <table class="table table-border">
+                <thead>
+                    <tr>
+                  
+                        <th>이름</th>
+                        <th>기간</th>
+                        <th>가격</th>
+                        <th>유형</th>
+                        <th>관리</th>
+                    </tr>
+                </thead>
+                <tbody class="center target">
+                  
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

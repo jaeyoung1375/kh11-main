@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
+    <!-- jquery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+       /*
+        생성할 화면이 복잡해질 수록 코드만으로 생성은 어려워진다
+
+       */
+        $(function(){
+            $("#add-btn").click(function(){
+                // 입력값 불러오고 입력 창 초기화
+                var item = $("#user-input").val();
+                $("#user-input").val("");
+
+                var html =$("#todo-template").html();
+                
+                // 문자열로 된 html을 실제 HTML로 해석하는 명령
+                var parse = $.parseHTML(html);
+                $(parse).find(".title").text(item);
+                $(parse).find(".fa-xmark").click(function(){
+                    $(this).parent().remove();
+                });
+
+                $(".target").append(parse);
+                
+               
+            });
+        });
+    </script>
+    <!-- 템플릿 생성 -->
+    <script type="text/template" id="todo-template">
+        <h2>
+            <span></span>
+            <i class="fa-solid fa-xmark"></i>
+        </h2>
+    </script>
+</head>
+<body>
+    <div class="container-600">
+        <div class="row center">
+            <h1>오늘의 할 일</h1>
+        </div>
+        <div class="row center">
+            <input type="text" id="user-input" class="form-input">
+            <button class="form-btn positive" id="add-btn">등록</button>
+        </div>
+
+        <hr>
+        <!-- 할 일이 등록될 위치 -->
+        <div class="row center target">
+
+        </div>
+    </div>
+</body>
+</html>

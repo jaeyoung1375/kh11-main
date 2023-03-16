@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <title>Document</title>
+    <!-- jquery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(function(){
+            // 목표 : 버튼을 누르면 비동기 통신으로 다른 페이지를 불러온다
+            $("button").click(function(){
+                $.ajax({
+                    url : "ajax01.json", // 대상주소
+                    success : function(response){   
+                        // 화면 청소
+                        $(".target").empty();
+                        // response의 데이터와 HTML 템플릿을 합쳐서 출력
+                        for(var i = 0; i<response.length; i++){
+                            var template =$("#student-template").html();
+                            var html = $.parseHTML(template);
+                            $(html).find(".name").text(response[i].name);
+                            $(html).find(".score").text(response[i].score);
+
+                            $(".target").append(html);
+                            
+                        }
+                    }
+                });
+            });      
+        });
+    </script>
+    <script type="text/template" id="student-template">
+        <div>
+            <span class="name">이름</span>
+            <span class="score">점수</span>
+        </div>
+    </script>
+</head>
+<body>
+    <div class="container-600">
+        <div class="row center">
+            <h1>비동기 통신 예제</h1>
+        </div>
+        <div class="row">
+            <button class="form-btn positive">불러오기</button>
+        </div>
+        <div class="row target">
+            
+        </div>
+    </div>
+</body>
+</html>

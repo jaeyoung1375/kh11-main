@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <title>Document</title>
+    <!-- jquery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(function(){
+            loadList();
+            
+            function loadList(){
+
+                $.ajax({
+                url : "http://localhost:8080/rest/student/",
+                success : function(response){
+                    $(".target").empty();
+                    for(var i = 0; i<response.length; i++){
+                        var template = $("#student-template").html();
+                        var html = $.parseHTML(template);
+
+                        $(html).find(".no").text(response[i].no);
+                        $(html).find(".name").text(response[i].name);
+                        $(html).find(".korean").text(response[i].period);
+                        $(html).find(".english").text(response[i].price);
+                        $(html).find(".math").text(response[i].type);
+                        $(html).find(".delete-btn").attr("data-no",response[i].no);
+                        $(html).find(".edit-btn").attr("data-no",response[i].no);
+
+                        $(html).find(".delete-btn").click(function(){
+                            var choice = window.confirm("정말 삭제하시겠습니까?");
+                            if(!choice) return;
+
+                            var no = $(this).attr("data-no");
+                            
+                            $.ajax({
+                                url : "http://localhost:8080/rest/student/"+no,
+                                method :"delete",
+                                success:function(response){
+                                    loadList();
+                                },
+                                error:function(){
+                                    window.alert("통신 오류");
+                                },
+                            });
+                        });
+
+                        $(".target").append(html);
+                    }
+                }
+            });
+            }
+            
+            // 계획
+            // - 입력폼에는 여러 이벤트가 존재하며 시점도 다 다름
+            // - 모든 상황의 결과를 저장할 객체 하나를 준비
+            // - 각각의 상황에 맞게 객체에 데이터를 설정
+            var valid = {
+                nameValid:false,
+                koreanValid:false,
+                englishValid:false,
+                mathValid:false,
+                isAllValid:function(){
+                    return this.nameValid && this.koreanValid && 
+                    this.englishValid && this.mathValid;
+                }
+            };
+           
+            $("[name=name]").blur(function(){
+                var regex = /^[가-힣]{2,7}$/;
+
+                // 화면 처리도 중요하지만 
+                // valid객체에 nameValid를 설정하는 것이 가장 중요
+                valid.nameValid = regex.test($(this).val());
+            });
+            $("[name=korean]").blur(function(){
+                var korean = parseInt($(this).val());
+                console.log(korean);
+                valid.koreanValid = korean >= 0 && korean <= 100;
+            });
+
+            $("[name=english]").blur(function(){
+                var english = parseInt($(this).val());
+                valid.englishValid = english >= 0 && english <= 100;
+            });
+
+            $("[name=math]").blur(function(){
+                var math = parseInt($(this).val());
+                valid.mathValid = math >= 0 && math <= 100;
+            });
+
+            // 전송 처리
+            // - valid만 확인하면 전송이 가능한지 불가능한지 알 수 이다
+            $(".input-form").submit(function(e){
+                e.preventDefault();
+
+                // this == form
+                // - form에는 serialize라는 함수가 있다
+                // - 사용하면 전송 가능한 형태로 문자열을 반환
+                var data = $(this).serialize();
+                console.log(data);
+                if(valid.isAllValid()){
+                    // form을 전송하는 것이 아니라 비동기통신을 진행
+                    $.ajax({
+                       url:"http://localhost:8080/rest/student/",
+                       method:"post",
+                       data:data,                
+                       success:function(response){
+                        // 입력창 청소 및 목록 갱신
+                        $(".input-form").get(0).reset();
+                        loadList();
+                       },
+                       error:function(){
+                        alert("통신오류 발생");
+                       } 
+                    });
+                }
+             });
+                  
+        });
+    </script>
+    <script type="text/template" id="student-template">
+        <tr class="student">
+            <td>1</td>
+            <td class="name">재영</td>
+            <td class="korean">90</td>
+            <td class="english">65</td>
+            <td class="math">54</td>
+            <td>
+                <a href="#" class="link edit-btn">수정</a>
+                <a href="#" class="link delete-btn">삭제</a>
+            </td>
+        </tr>
+    </script>
+</head>
+<body>
+    <div class="container-800">
+        <div class="row center">
+            <h1>학생 관리</h1>
+        </div>
+
+        <div class="flex-box">
+            <div class="w-40">
+                <form class="input-form" autocomplete="off">
+                <div class="row">
+                    <label>이름</label>
+                    <input type="text" class="form-input w-100" name="name">
+                </div>
+                <div class="row">
+                    <label>국어점수</label>
+                    <input type="text" class="form-input w-100" name="korean">
+                </div>
+                <div class="row">
+                    <label>영어점수</label>
+                    <input type="text" class="form-input w-100" name="english">
+                </div>
+                <div class="row">
+                    <label>수학점수</label>
+                    <input type="text" class="form-input w-100" name="math">
+                </div>
+                <div class="row">
+                    <button type="submit" class="form-btn positive w-100 add-btn">
+                       <i class="fa-solid fa-plus"></i>
+                        등록
+                    </button>
+                </div>
+            </div>
+        </form>
+            <div class="w-60 p-10">
+                <table class="table table-border">
+                    <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>이름</th>
+                            <th>국어</th>
+                            <th>영어</th>
+                            <th>수학</th>
+                            <th>관리</th>
+                        </tr>
+                    </thead>
+                    <tbody class="center target">
+                       
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        
+    </div>
+</body>
+</html>

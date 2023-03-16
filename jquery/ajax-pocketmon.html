@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <title>Document</title>
+    <!-- jquery cdn -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script type="text/javascript">
+        $(function(){
+            //이 범위에서 사용할 수 있는 변수를 생성해서 번호 중복 검사 결과를 저장
+            var isValid = false;
+
+            loadList();
+
+            function loadList(){
+                $.ajax({
+                    url:"http://localhost:8080/rest/pocketmon/",
+                    method:"get",
+                    success:function(response) {
+                        $(".target").empty();
+
+                        //console.log(response);
+                        for(var i=0; i < response.length; i++) {
+                            var template = $("#pocketmon-template").html();
+                            var html = $.parseHTML(template);
+
+                            $(html).find(".no").text(response[i].no);
+                            $(html).find(".name").text(response[i].name);
+                            $(html).find(".type").text(response[i].type);
+                            $(html).find(".delete-btn").attr("data-no",response[i].no);
+                            $(html).find(".edit-btn").attr("data-no",response[i].no);
+
+                              // 이벤트 설정하는 위치
+                        $(html).find(".delete-btn").click(function(){
+                            var choice = window.confirm("정말 삭제하시겠습니까?");
+                            if(!choice) return;
+
+                            var no = $(this).attr("data-no");
+
+                            $.ajax({
+                                url : "http://localhost:8080/rest/pocketmon/"+no,
+                                method : "delete",
+                                // /GET , /DELETE는 data가 없다
+                                success:function(response){
+                                    loadList();
+                                },
+                                error : function(){
+                                    window.alert("통신 오류");
+                                },
+                            });
+                        });
+
+                            $(".target").append(html);
+                        }
+                    }
+                });
+            }
+        
+            function clearInput() {
+                $("[name=no]").val("").next("span").text("");
+                $("[name=name]").val("");
+                $("[name=type]").val("");
+            }
+
+            //번호 중복 검사
+            //- 번호 입력창에 blur 이벤트가 발생하면
+            //- 서버의 단일조회 페이지로 번호와 함께 요청을 전송
+            //- 서버에서 조회한 결과를 반환
+            //- 결과에 따라 메세지를 작성
+            $("[name=no]").blur(function(){
+                //this == 입력창
+                var no = $(this).val();
+
+                $.ajax({
+                    url:"http://localhost:8080/rest/pocketmon/"+no,
+                    method:"get",
+                    success:function(response){
+                        //this != 입력창
+                        //console.log(response);
+
+                        //response가 "NNNNN"이면 사용 불가, "NNNNY"면 사용 가능
+                        if(response == "NNNNY") {
+                            isValid = true;
+                            $("[name=no]").next("span").text("사용가능");
+                        }
+                        else {
+                            isValid = false;
+                            $("[name=no]").next("span").text("사용불가");
+                        }
+                    }
+                });
+            });
+        
+            //등록 버튼을 누르면 isValid의 상태를 보고 등록 처리/차단
+            $(".add-btn").click(function(){
+                // console.log(isValid);
+
+                //(주의) 비동기통신은 가급적 발생하지 않는 것이 좋다
+                if(!isValid) return;
+
+                var no = $("[name=no]").val();
+                var name = $("[name=name]").val();
+                var type = $("[name=type]").val();
+
+                $.ajax({
+                    url:"http://localhost:8080/rest/pocketmon/",
+                    method:"post",//등록은 POST
+                    data:{//전송할 데이터
+                        no:no,
+                        name:name,
+                        type:type
+                    },
+                    success:function(response){
+                        //console.log(response);
+                        loadList();//등록 끝나면 목록 갱신
+                        clearInput();//입력창 지우기
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script type="text/template" id="pocketmon-template">
+        <tr class="pocketmon">
+            <td class="no">1</td>
+            <td class="name">이상해씨</td>
+            <td class="type">풀</td>
+            <td>
+                <a href="#" class="link edit-btn">수정</a>
+                <a href="#" class="link delete-btn">삭제</a>
+            </td>
+        </tr>
+    </script>
+</head>
+<body>
+    <div class="container-600">
+        <div class="row center">
+            <h1>포켓몬스터</h1>
+        </div>
+
+        <!-- 2단으로 분리 -->
+        <div class="float-box">
+            <div class="float-left w-40">
+                <div class="row">
+                    <input type="text" name="no" placeholder="번호" class="form-input w-100">
+                    <span></span>
+                </div>
+                <div class="row">
+                    <input type="text" name="name" placeholder="이름" class="form-input w-100">
+                </div>
+                <div class="row">
+                    <input type="text" name="type" placeholder="속성" class="form-input w-100">
+                </div>
+                <div class="row">
+                    <button class="form-btn w-100 positive add-btn">등록</button>
+                </div>
+            </div>
+            <div class="float-left w-60 p-10">
+                <table class="table table-border">
+                    <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>이름</th>
+                            <th>속성</th>
+                            <th>관리</th>
+                        </tr>
+                    </thead>
+                    <tbody class="center target">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

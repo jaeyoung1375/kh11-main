@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
+    <!-- jquery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            //목표 : 등록버튼을 누르면 정보를 취합해서 템플릿에 넣고 생성 및 추가
+            $(".add-btn").click(function(){
+                var no = $("[name=no]").val();
+                var name = $("[name=name]").val();
+                var type = $("[name=type]").val();
+                //console.log(no, name, type);
+
+                var isValid = no.length > 0 && name.length > 0 && type.length > 0;
+                //console.log(isValid);
+
+                if(!isValid) {
+                    window.alert("정보를 모두 작성하세요");
+                    return;
+                }
+
+                //정보가 다 입력된 경우
+                var template = $("#pocketmon-template").html();
+                
+                var html = $.parseHTML(template);
+
+                $(html).find(".no").text(no);
+                $(html).find(".name").text(name);
+                $(html).find(".type").text(type);
+                $(html).find(".delete-btn").click(function(){
+                    //this == 삭제 버튼
+                    var choice = window.confirm("정말 삭제하시겠어요?");
+                    if(!choice) return;
+
+                    $(this).parent("td").parent("tr").remove();
+                });
+
+                $(".target").append(html);
+
+                $("[name=no]").val("");
+                $("[name=name]").val("");
+                $("[name=type]").val("");
+            });
+        });
+    </script>
+
+    <script type="text/template" id="pocketmon-template">
+        <tr>
+            <td class="no">1</td>
+            <td class="name">이상해씨</td>
+            <td class="type">풀</td>
+            <td>
+                <a href="#" class="link delete-btn">삭제</a>
+            </td>
+        </tr>
+    </script>
+</head>
+<body>
+    <div class="container-800">
+        <div class="row center">
+            <h1>포켓몬스터 관리</h1>
+        </div>
+
+        <hr>
+
+        <div class="row center">
+            <input type="text" name="no" class="form-input" placeholder="번호">
+            <input type="text" name="name" class="form-input" placeholder="이름">
+            <input type="text" name="type" class="form-input" placeholder="속성">
+            <button type="button" class="form-btn positive add-btn">등록</button>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <table class="table table-border">
+                <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>이름</th>
+                        <th>속성</th>
+                        <th>관리</th>
+                    </tr>
+                </thead>
+                <tbody class="target center">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
