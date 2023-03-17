@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <title>Document</title>
+    <!-- jquery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(function(){
+          // 이벤트 없이 체크박스의 현재 상태를 읽는다
+          // - .prop()은 대상의 자바스크립트 속성을 읽는다(실제 관리하는 값)
+          // - .attr()은 대상의 표시된 글자를 읽는다(태그의 표시되는 값)
+          // - 태그에 존재하는 속성이면 .prop()이 좋다
+          // - 태그에 존재하지 않는 속성이면 .attr() 밖에 안된다
+          
+          console.log($("#ck1").prop("checked"));
+          console.log($("#ck1").attr("checked"));
+
+          console.log($("#ck2").prop("checked"));
+          console.log($("#ck2").attr("checked"));
+
+          console.log($("#ck3").prop("checked"));
+          console.log($("#ck3").attr("checked"));
+
+          // #ck1에 체크 이벤트(change) 설정
+          $("#ck1").change(function(){
+            var isChecked = $(this).prop("checked");
+            console.log(isChecked);
+          });
+          
+        });
+    </script>
+</head>
+<body>
+    <div class="container-600">
+        <div class="row center">
+            <h1>prop과 attr의 차이</h1>
+        </div>
+        <div class="row">
+            <input type="checkbox" id="ck1">
+        </div>
+
+        <div class="row">
+            <input type="checkbox" id="ck2" checked>
+        </div>
+
+        <div class="row">
+            <input type="checkbox" id="ck3" checked="checked">
+        </div>
+    </div>
+</body>
+</html>

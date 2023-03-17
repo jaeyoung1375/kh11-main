@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <title>Document</title>
+    <!-- jquery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(function(){
+             // 목표
+             // 1. 전체 체크박스 체크 시 개별 항목 + 전체 항목 처리
+             // 2. 개별 항목 체크 시 전체 항목 처리
+             
+             //1
+             $(".check-all").change(function(){
+                var isChecked = $(this).prop("checked");
+                
+                $(".check-all, .check-unit").prop("checked",isChecked);
+            
+             });
+
+             //2
+             $(".check-unit").change(function(){
+                var checkboxCount = $(".check-unit").length; 
+                var checkedCount =  $(".check-unit:checked").length;
+                var isAllChecked = checkboxCount == checkedCount;
+
+                $(".check-all").prop("checked",isAllChecked);
+             });
+
+             // (추가) 선택 반전 버튼을 누르면 체크 상태를 반대로 전환
+             // 개별 체크박스의 상태가 다를 수 있으므로 반복으로 처리
+             // - jquery는 반복문도 jQuery 명령을 사용하는 것을 권장
+             // $(대상).each()
+             $(".check-reverse").click(function(){
+                
+                $(".check-unit").each(function(){
+                    // this == 현재 순서의 체크박스
+                    
+                    var isChecked = $(this).prop("checked");
+                    $(this).prop("checked",!isChecked);
+                });
+             });
+        });
+    </script>
+</head>
+<body>
+    <div class="container-600">
+        <div class="row center">
+            <h1>체크박스 제어</h1>
+        </div>
+        <div class="row">
+            <button class="form-btn neutral check-reverse">선택 반전</button>
+        </div>
+        <div class="row">
+            <label>
+                <input type="checkbox" class="check-all">
+                전체 선택
+            </label>
+        </div>
+        <div class="row">
+            <label>
+                <input type="checkbox" class="check-unit">
+                항목
+            </label>
+        </div>
+        <div class="row">
+            <label>
+                <input type="checkbox" class="check-unit">
+                항목
+            </label>
+        </div>
+        <div class="row">
+            <label>
+                <input type="checkbox" class="check-unit">
+                항목
+            </label>
+        </div>
+        <div class="row">
+            <label>
+                <input type="checkbox" class="check-unit">
+                항목
+            </label>
+        </div>
+        <div class="row">
+            <label>
+                <input type="checkbox" class="check-unit">
+                항목
+            </label>
+        </div>
+        <div class="row">
+            <label>
+                <input type="checkbox" class="check-all">
+                전체 선택
+            </label>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <title>Document</title>
+    <script>
+        // var b = [10,20,30,40,50];
+        // for(var i = 0; i<b.length; i++){
+        //     console.log(b[i]);
+        // }
+
+        // var c = [];
+        // c[0] = 15;
+        // c[1] = 23;
+        // console.log(c);
+        // - push()를 사용하면 자바의 List.add() 효과 발생
+        
+        // 태그를 전체적으로 불러오고 싶다면 document.querySelectorAll() 사용
+        // - 대상이 여러 개이므로 배열 형태로 나온다
+        // - 인덱스를 통해 개별 태그에 접근하여 설정을 진행해야 한다
+        function changeRed(){
+            var list = document.querySelectorAll("h1");
+            console.log(list);
+            for(var i = 0; i<list.length; i++){
+
+                list[i].style.color = "red";
+            }
+        }
+
+        function changeBlue(){
+            var list = document.querySelectorAll("h1");
+            console.log(list);
+            for(var i = 0; i<list.length; i++){
+
+                list[i].style.color = "blue";
+            }
+        }
+
+        function changeYellow(){
+            var list = document.querySelectorAll("h1");
+            console.log(list);
+            for(var i = 0; i<list.length; i++){
+
+                list[i].style.color = "yellow";
+            }
+        }
+    </script>
+</head>
+<body>
+    <button onclick="changeRed();">빨강</button>
+    <button onclick="changeBlue();">파랑</button>
+    <button onclick="changeYellow();">노랑</button>
+    <h1>첫번째</h1>
+    <h1>두번째</h1>
+    <h1>세번째</h1>
+    <h1>네번째</h1>
+    <h1>다섯번째</h1>   
+</body>
+</html>

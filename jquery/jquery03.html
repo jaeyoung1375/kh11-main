@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <title>Document</title>
+    <!-- jquery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(function(){
+            
+           var textarea = $("#text");
+           var span = $(".count");
+           textarea.on("input",function(){
+            
+            var len = textarea.val().length;
+            $(".count").html(len);
+            console.log(span.textContent);
+
+            //4. 1000글자를 기준으로 글자 색상을 설정
+
+            if(len > 1000) {
+                span.css("color","red");
+            }
+            else {
+                span.css("color","black");
+            }
+            
+            });  
+        });
+    </script>
+</head>
+<body>
+    <div class="container-600">
+        <div class="row">
+            <h2>(Q) 성장배경에 대해서 설명해주세요(최대 1000자)</h2>
+        </div>
+        <div class="row right">
+            <textarea name="q1" class="form-input w-100"
+                id="text"></textarea>
+            <span class="count">0</span> / 1000
+        </div>
+    </div>
+</body>
+</html>

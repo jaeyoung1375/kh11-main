@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <title>Document</title>
+    <script>
+        // 객체
+        // - 정보가 모여있는 단위
+        // - 자바에서는 객체를 만드려면 클래스가 필요하다
+        // - 자바스크립트에서는 클래스가 업어도 객체 생성이 가능하다
+        // - 자바스크립트에서 클래스는 ES6(신버전)에서 나옴
+
+        // ES5(구버전) 에서 객체를 생성하는 방법
+        // (1) 일회용 객체 생성 - 쉽고 간편하지만 체계가 없음
+        var a = {
+        name:"피카츄",
+        score:90
+        };
+        console.log(a);
+        console.log(a.name);
+        console.log(a.score,a["score"]);
+
+        // (2) 생성자 함수를 사용 - 체계적으로 객체를 생성(자바의 클래스)
+        function Student(name, score){
+            this.name = name;
+            this.score = score;
+        }
+
+        var stu ={
+            name :"피카츄",
+            score : 90,
+            setName : function(name){
+                this.name = name;
+            },
+            getName : function(){
+                return this.name;
+            },
+            setScore : function(score){
+                if(score < 0 || score > 100) return;
+                this.score = score;
+            },
+            getScore : function(){
+                return this.score;
+            }
+        };
+        console.log(stu.getScore());
+
+        
+        
+
+    </script>
+</head>
+<body>
+    <div class="container-600">
+        <div class="row center">
+            <h1>제목</h1>
+        </div>
+    </div>
+</body>
+</html>
