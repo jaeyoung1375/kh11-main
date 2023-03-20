@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>홈페이지 레이아웃</title>
-    <link rel="stylesheet" type="text/css" href="/static/css/load.css">
+     <link rel="stylesheet" type="text/css" href="/static/css/load.css">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     
     <link rel="stylesheet" type="text/css" href="/static/css/reset.css">
@@ -17,8 +17,13 @@
     <link rel="stylesheet" type="text/css" href="/static/css/commons.css">
     <link rel="stylesheet" type="text/css" href="/static/css/test.css">
     <style>
-        
+        .fa-asterisk {
+        	color:red;
+        	margin-left: 2px;
+        }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+   
 </head>
 <body>
     <!--

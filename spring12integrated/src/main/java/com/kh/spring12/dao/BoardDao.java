@@ -174,6 +174,25 @@ public class BoardDao {
 			return jdbcTemplate.query(sql, mapper, param);
 		}
 	}
+
+	public void updateLikeCount(int boardNo, int count) {
+		String sql = "update board set board_like = ? where board_no = ?";
+		Object[] param = {count,boardNo};
+		jdbcTemplate.update(sql,param);
+	}
+	
+	// 댓글 개수 갱신기능
+	public void updateReplyCount(int boardNo) {
+		String sql  = "update board set board_reply =("
+				+ "select count(*) from reply where reply_origin = ?"
+				+ ")"
+				+ "where board_no = ?";
+		
+		Object[] param = {boardNo,boardNo};
+		
+		jdbcTemplate.update(sql,param);
+				
+	}
 	
 }
 
