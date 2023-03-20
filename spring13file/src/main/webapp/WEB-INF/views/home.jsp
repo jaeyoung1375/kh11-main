@@ -50,7 +50,7 @@
 	이름 : <input type="text" name="name"><br><br>
 	속성 : <input type="text" name="type"><br><br>
 	이미지 : <input type="file" name="attach" accept=".png, .gif, .jpg"><br><br>
-	<button>등록</button>
+	<input type="button" value="등록2">
 </form>
 
 <hr>
