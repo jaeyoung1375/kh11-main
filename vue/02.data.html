@@ -7,19 +7,26 @@
     <title>Document</title>
 </head>
 <body>
+     
 
         <div id="app">
-       
+            <!-- agree 데이터와 양방향 연결 -->
+            <input type="checkbox" v-model="agree">동의합니다
+            <br><br>
+            <!-- agree 데이터와 단방향 연결 -->
+            <button v-bind:disabled="!agree">다음 단계로 이동</button>
+
         </div>
 
-      
         <script src="https://unpkg.com/vue@3.2.36"></script>
         <script>
+            // 목표 : 동의를 체크하면 다음 단계로 이동할 수 있도록 버튼을 활성화
+
           const app = Vue.createApp({
                 // 데이터 설정 영역
                 data(){
                     return {
-                       
+                        agree:false,
                     };
                 },
             });

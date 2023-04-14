@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+        <div id="app">
+
+            <h1>이벤트 예제</h1>
+            
+           <input type="text" v-model.number="count">
+           <button v-on:click="plusOne">+1</button>
+           <button v-on:click="minusOne">-1</button>
+
+        </div>
+    
+        <script src="https://unpkg.com/vue@3.2.36"></script>
+        <script>
+   
+          const app = Vue.createApp({
+                // 데이터 설정 영역
+                data(){
+                    return {
+                        count : 0,
+                    };
+                },
+            
+                computed:{
+                   
+                },
+                // 메서드 영역
+                methods:{
+                    plusOne(){
+                        this.count++;
+                    },
+                    minusOne(){
+                        this.count--;
+                    },
+                }
+            });
+            app.mount("#app");
+        </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <title>Document</title>
+</head>
+<body>
+       
+        <div class="container-600">
+
+            <div id="app">
+               <h2>(Q) 성격의 장단점을 작성해주세요</h2>
+               <textarea row="10" cols="60" v-model="inputText" class="form-input w-100"></textarea> <br>
+                <span style="color:red;">{{result}}</span>
+                <div class="right">
+               <span>{{len}}/100</span>
+            </div>
+            </div>
+        </div>
+
+      
+        <script src="https://unpkg.com/vue@3.2.36"></script>
+        <script>
+   
+          const app = Vue.createApp({
+                // 데이터 설정 영역
+                data(){
+                    return {
+                        inputText : "",
+                    };
+                },
+            
+                computed:{
+                    len(){
+                        return this.inputText.length;
+                    },
+                    result(){
+                        if(this.len > 100){
+                            return "100글자 이내로 작성하세요";
+                        }
+                    },
+                },
+            });
+            app.mount("#app");
+        </script>
+</body>
+</html>

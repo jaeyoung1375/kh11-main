@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <title>Document</title>
+    <style>
+        .page{
+            border : 1px solid black;
+            padding : 1em;
+            height:300px;
+        }
+        .progress{
+            height: 5px;
+        }
+        .progress > .bar{
+            height: 100%;
+            background-color: dodgerblue;
+        }
+    </style>
+</head>
+<body>
+       
+        <div id="app" class="container-500">
+           <h2>멀티페이지 문제</h2>
+
+           <div class="row">총 {{page}} / 5단계</div>
+           <div class="row progress">
+                <div class="bar" v-bind:style="{'width':percent+'%'}"></div>
+           </div>
+          
+           <div class="row page" v-show="page==1">1페이지</div>
+           <div class="row page" v-show="page==2">2페이지</div>
+           <div class="row page" v-show="page==3">3페이지</div>
+           <div class="row page" v-show="page==4">4페이지</div>
+           <div class="row page" v-show="page==5">5페이지</div>
+
+
+
+           <button v-on:click="prev" v-if="page > 1">이전</button>
+           <button v-on:click="next" v-if="page < 5">다음</button>
+        </div>
+     
+        <script src="https://unpkg.com/vue@3.2.36"></script>
+        <script>
+   
+          const app = Vue.createApp({
+                // 데이터 설정 영역
+                data(){
+                    return {
+                        page : 1,
+                    };
+                },
+            
+                computed:{
+                   percent(){
+                    return this.page*100/5;
+                   }
+                },
+                methods:{
+                    prev(){
+                        this.page--;
+                    },
+                    next(){
+                        this.page++;
+                    },
+
+                },
+            });
+            app.mount("#app");
+        </script>
+</body>
+</html>

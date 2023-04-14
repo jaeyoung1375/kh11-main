@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+     
+
+        <div id="app">
+           <!--
+             단방향 출력 
+             - 데이터가 변하면 자동으로 바뀌어서 출력
+             - 화면에서 값을 변화시킬 방법은 없음
+        -->
+        <h3>{{text}}</h3>
+        <h3>{{number}}</h3>
+        <h3>{{active}}</h3>
+        <h3>{{list}}</h3>
+        <h3>{{student}}</h3>
+
+        <!--
+            양방향 연결
+             - Vue의 데이터를 변화시킬 수 있는 연결
+             - v-model 속성을 사용하여 데이터를 지정
+             - 입력창에만 가능
+             - 한글은 IME 방식이어서 바로 반영이 안됨
+
+        -->
+        <hr>
+        <input type="text" v-model="text" v-on:input="text = $event.target.value"> <br><br>
+        <input type="range" v-model="number" min="0" max="10000">
+        <span>{{number}}</span>
+        <br><br>
+        <input type="checkbox" v-model="active">{{active}}<br><br>
+
+
+
+        </div>
+
+     
+        <script src="https://unpkg.com/vue@3.2.36"></script>
+        <script>
+          const app = Vue.createApp({
+                // 데이터 설정 영역
+                data(){
+                    return {
+                        text : "뷰 백그라운드 데이터",
+                        number : 1000,
+                        active:true,
+                        list :[30,50,20,10,40],
+                        student :{
+                            name :"피카츄",
+                            score : 70
+                        },
+
+                    };
+                },
+            });
+            app.mount("#app");
+        </script>
+</body>
+</html>

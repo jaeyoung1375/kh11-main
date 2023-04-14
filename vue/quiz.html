@@ -7,21 +7,32 @@
     <title>Document</title>
 </head>
 <body>
+       
 
         <div id="app">
-       
+           <input type="text" v-model="size.width">
+           <input type="text" v-model="size.height">
+
+           <hr>
+
+           <img src="../css/image/user.jpg" :width="size.width" :height="size.height">
         </div>
 
       
         <script src="https://unpkg.com/vue@3.2.36"></script>
         <script>
+   
           const app = Vue.createApp({
                 // 데이터 설정 영역
                 data(){
                     return {
-                       
+                    size : {
+                        width : 200,
+                        height : 200,
+                    },
                     };
                 },
+            
             });
             app.mount("#app");
         </script>

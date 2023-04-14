@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <title>Document</title>
+</head>
+<body>
+       
+
+        <div id="app">
+           <h1>반복 예제</h1>
+
+           <!--
+                v-for를 이용하면 데이터가 배열일 경우 반복하여 태그 생성 가능
+
+           -->
+           <div v-for="item in todoItems">{{item}}</div>
+
+           <hr>
+           <!-- 추가로 index를 적으면 순서도 알 수 있다 -->
+           <div v-for="(item,index) in todoItems">{{index}} - {{item}}</div>
+
+           <!-- vue에서는 추가/삭제 시 순서 관리를 위해 key를 지정하는 것을 권장 -->
+           <div v-for="(item,index) in todoItems" v-bind:key="index">{{index}} - {{item}}</div>
+
+           <div class="row" v-for="(item,index) in todoItems" v-bind:key="index">
+                <label>{{index+1}}번째 항목</label>
+                <i class="fa-solid fa-xmark" v-on:click="deleteItem(index)">x</i>
+                <input type="text" class="form-input w-100" v-model="todoItems[index]">
+           </div>
+
+           <!-- 입력창을 추가한다는 것은 배열에 데이터를 하나 더 넣는다는 의미-->
+           <button class="form-btn positive" v-on:click="addItem">추가</button>
+        </div>
+
+      
+        <script src="https://unpkg.com/vue@3.2.36"></script>
+        <script>
+   
+          const app = Vue.createApp({
+                // 데이터 설정 영역
+                data(){
+                    return {
+                     // 화면에서 사용할 데이터 선언
+                     todoItems:[
+                        "이력서쓰기",
+                        "정장사진찍기",
+                        "공부하기"
+                     ]
+                    };
+                },
+            
+                computed:{
+                   
+                },
+                methods:{
+                    addItem(){
+                        this.todoItems.push("");
+                    },
+                    deleteItem(index){
+                        this.todoItems.splice(index,1);
+                    },
+                }
+            });
+            app.mount("#app");
+        </script>
+</body>
+</html>
