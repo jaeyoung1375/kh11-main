@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <title>Document</title>
+    <!-- jquery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script>
+        $(function(){
+            $('[name=content]').summernote({
+        placeholder: '내용을 작성하세요.',
+        tabsize: 4, // 탭키를 누르면 띄어쓰기 몇 번 할지
+        height: 250, // 최초 표시될 높이(px)
+        toolbar: [ // 메뉴 설정
+          ['style', ['style']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['link', 'picture']],
+          
+        ],
+        callbacks:{
+            onImageUpload:function(files){
+                console.log(files);
+            }
+        }
+      });      
+        });
+    </script>
+</head>
+<body>
+    <div class="container-600">
+        <div class="row center">
+            <h1>텍스트 에디터 예제</h1>
+        </div>
+        <div class="row">
+            <textarea name="content"></textarea>
+        </div>
+    </div>
+</body>
+</html>

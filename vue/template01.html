@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+        <!--
+            VueJs는 제어 영역을 반드시 설정해야 한다
+        -->
+
+        <div id="app">
+            <h1>{{title}}</h1>
+        </div>
+
+        <!-- 
+            VueJs는 Lazy loading 방식으로 제어 영역에 대한 프로그래밍 구현
+        -->
+        <script src="https://unpkg.com/vue@3.2.36"></script>
+        <script>
+          const app = Vue.createApp({
+                // 데이터 설정 영역
+                data(){
+                    return {
+                        title : "Welcome to Vue JS 3!"
+                    };
+                },
+            });
+            app.mount("#app");
+        </script>
+</body>
+</html>

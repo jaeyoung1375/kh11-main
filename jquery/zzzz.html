@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <title>Document</title>
+    <!-- jquery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(function(){
+                var input = $("#input");
+
+                $(".number").click(function(){
+                    var data = input.val() + $(this).val();
+                    input.val(data);
+                    
+                });
+
+                $(".clear").click(function(){
+                    input.val("");
+                })
+
+                $(".delete").click(function(){
+                    var inputData = $("#input").val();
+                    var newData = inputData.slice(0,-1);
+                    $("#input").val(newData);
+                });
+
+                $("#check").change(function(){
+                    var check = $(this).prop("checked");
+                    
+                    if(check){
+                        $("#input").attr("type","text");
+                    }else{
+                        $("#input").attr("type","password"); 
+                    }
+                });
+        });
+    </script>
+</head>
+<body>
+    <div class="container-600 center">
+        <div class="row center">
+            <h2>비밀번호 입력</h2>
+        </div>
+        <div class="row">
+            <input type="password" class="form-input w-50" readonly id="input"> 
+        </div>
+        <div class="row" style="margin-right: 150px;">
+            <label>
+                <input type="checkbox" name="check" id="check">
+                비밀번호 표시
+            </label>
+        </div>
+        <div class="row">
+            <button class="number" value="1">1</button>
+            <button class="number" value="2">2</button>
+            <button class="number" value="3">3</button>
+        </div>
+        <div class="row">
+            <button class="number" value="4">4</button>
+            <button class="number" value="5">5</button>
+            <button class="number" value="6">6</button>
+        </div>
+        <div class="row">
+            <button class="number" value="7">7</button>
+            <button class="number" value="8">8</button>
+            <button class="number" value="9">9</button>
+        </div>
+        <div class="row">
+            <button class="delete">x</button>
+            <button class="number" value="0">0</button>
+            <button class="clear">전체삭제</button>
+        </div>
+       
+    </div>
+</body>
+</html>

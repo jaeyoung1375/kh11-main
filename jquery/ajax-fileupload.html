@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <title>Document</title>
+    <!-- jquery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(function(){
+               $("[name=attach]").change(function(){
+                if(this.files.length == 0) return;
+
+                // 선택된 파일(this.files[0])을 서버로 비동기 업로드
+                // 파일 업로드 하려면 multipart/form-data 방식을 써야한다
+                // ajax에서 multipart 방식을 쓰려면 어떻게 해야 하는가
+
+                // 1. 전송 데이터는 반드시 FormData라는 형태로 준비(Java의 Map과 유사)
+                // 2. ajax에 processData:false 옵션을 추가
+                // 3. ajax에 contentType:false 옵션을 추가
+
+
+                var fd = new FormData(); // Map fd = new Map();
+                fd.append("attach",this.files[0]);
+
+                $.ajax({
+                    url:"http://localhost:8080/rest/file/upload",
+                    method:"post",
+                    data :fd,
+                    processData:false,
+                    contentType:false,
+                    success:function(response){
+                        // console.log(response);
+                        // 이미지 태그를 만들어서 파일을 미리보기 하도록 처리
+                        var img = $("<img>").prop("src","http://localhost:8080/rest/file/download?attachmentNo="+response.attachmentNo)
+                                            .prop("width",150)
+                                            .prop("height",150);
+                        $(".target").html(img); // 덮어쓰기
+                    },
+                    error:function(){
+                        console.log("오류 발생");
+                    },
+                });
+               });   
+        });
+    </script>
+</head>
+<body>
+    <div class="container-600">
+        <div class="row center">
+            <h1>비동기 파일업로드</h1>
+        </div>
+        <div class="row">
+            <input type="file" name="attach" class="form-input w-100">
+        </div>
+        <div class="row target">
+            
+        </div>
+    </div>
+</body>
+</html>

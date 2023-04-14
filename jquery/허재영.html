@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <title>Document</title>
+    <!-- jquery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(function(){
+          var idRegex =  /^[a-z0-9]{8,20}$/;    
+          var pwRegex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$])[a-zA-Z0-9!@#$]{8,16}$/;  
+          var idCheck = false;
+          var pwCheck = false;
+          $("#login_btn").click(function(e){
+            e.preventDefault();
+
+            var id = $("#id").val();
+            var pw = $("#pw").val();
+            console.log(pwRegex.test(pw));
+            if(!idRegex.test(id)){
+                $(".id_warn").css("display","block");
+            }else{
+                $(".id_warn").css("display","none"); 
+                idCheck = true;
+            }
+
+            if(!pwRegex.test(pw)){
+                $(".pw_warn").css("display","block");
+            }else{
+                $(".pw_warn").css("display","none");
+                pwCheck = true; 
+            }
+
+            if(idCheck && pwCheck){
+                $("#join_form").submit();
+            }
+
+          });
+         
+        });
+    </script>
+
+    <style>
+        .id_warn, .pw_warn{
+            display: none;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container-600">
+        <div class="row center">
+            <h2>로그인</h2>
+        </div>
+        <form id="join_form">
+        <div class="row center">
+            <label for="student">
+                수강생
+                <input type="radio" id="student" name="level" checked>
+            </label>
+            <label for="nomal">
+                일반회원
+                <input type="radio" id="nomal" name="level">
+            </label>  
+        </div>
+        <div class="row center">
+            <input type="text" name="userId" class="form-input w-80" placeholder="아이디(*이메일 형식 입력불가)" id="id">
+        </div>
+        <div class="id_warn center">아이디를 올바로 작성하세요</div>
+        <div class="row center">
+            <input type="password" name="userPw" class="form-input w-80" placeholder="비밀번호" id="pw">
+        </div>
+        <div class="pw_warn center">비밀번호를 올바로 작성하세요</div>
+        <div class="row center">
+            <button type="submit" class="form-btn w-80 positive" id="login_btn">로그인</button>
+        </div>
+        <div class="row ms-50">
+            <label for="idSave">
+                아이디저장
+                <input type="checkbox" name="idCheck">
+            </label>
+        </div>
+    </form>
+    </div>
+</body>
+</html>

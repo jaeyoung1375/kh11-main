@@ -33,8 +33,9 @@
                             $(html).find(".name").text(response[i].name);
                             $(html).find(".type").text(response[i].type);
                             $(html).find(".delete-btn").attr("data-no",response[i].no);
-                            $(html).find(".edit-btn").attr("data-no",response[i].no);
-
+                            $(html).find(".edit-btn").attr("data-no",response[i].no)
+                                                        .attr("data-name",response[i].name)
+                                                        .attr("data-type",response[i].type);
                               // 이벤트 설정하는 위치
                         $(html).find(".delete-btn").click(function(){
                             var choice = window.confirm("정말 삭제하시겠습니까?");
@@ -54,7 +55,11 @@
                                 },
                             });
                         });
-
+                        $(html).find(".edit-btn").click(function(){
+                            $("[name=no]").val($(this).data("no"));
+                            $("[name=name]").val($(this).data("name"));
+                            $("[name=type]").val($(this).data("type"));
+                        });
                             $(".target").append(html);
                         }
                     }
