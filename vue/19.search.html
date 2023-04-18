@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+       
+
+        <div id="app">
+           <h1>자동완성 예제</h1>
+            <!--
+                한글 등 IME 입력 이슈에 대응하기 위한 방법
+                - v-model만으로는 어려우므로 v-on:input을 같이 사용
+                - v-on:input으로 입력 발생 시 수동으로 데이터를 갱신하도록 작성
+                - v-on:input="데이터 = $event.target.value"
+                - $event는 Vue에서 관리하는 이벤트 정보 객체
+            -->
+           <input type="text" v-model="keyword" v-on:input="keyword = $event.target.value">
+     
+
+           <div v-for="(pocketmon,index) in result" :key="pocketmon.no">
+                {{pocketmon}}
+           </div>
+        </div>
+
+      
+        <script src="https://unpkg.com/vue@3.2.36"></script>
+        <script>
+   
+          const app = Vue.createApp({
+                // 데이터 설정 영역
+                data(){
+                    return {
+                     // 화면에서 사용할 데이터 선언
+
+                     // 검색어 입력창과 연결할 데이터
+                     keyword : "",
+
+                     // 검색 결과 데이터
+                     result : [],
+                    };
+                },
+            
+                computed:{
+                   
+                },
+                methods:{
+                    async loadResult(){
+                         // v-model로는 한글과 같은 IME방식의 입력이 제데로 처리되지 않는다
+                        // 입력 발생시 수동으로 값을 갱신해야 정상적인 처리가 가능
+                        // [1] document.querySelector 사용
+                        // this.keyword = document.querySelector("").value;
+                        // [2] event.target 사용
+                    
+
+                        if(this.keyword.length == 0) return;
+                        const resp = await axios.get("http://localhost:8080/pocketmon/name/"+this.keyword);
+                        this.result.splice(0); // 전체삭제
+                        this.result.push(...resp.data); // 전개연산자로 추가
+
+                   
+                    },
+                },
+                watch:{
+                    // [1] 성능같은건 신경쓰지 않고 구현만 한 경우
+                    // - 입력 빈도가 늘어날수록 서버에 부하가 심해짐
+                    // keyword(function(){})
+                    // keyword(cur,old){
+                    //     console.log("before = ", old," after=", cur);
+                    //     this.loadResult();
+                    // }
+
+                    // [2] 쓰로틀링 적용(lodash)
+                    // - 쓰로틀링은 설정한 시간 주기 이하의 이벤트는 무시
+                    // - 적용방법 : _.throttle(함수, 시간주기) ==> 새로운 함수
+                    // keyword : _.throttle(function(){
+                    //     // this == 뷰 인스턴스
+                    //     this.loadResult();
+                    // },1000),
+
+                    // [3] 디바운스 적용(lodash)
+                    // - 디바운스는 설정한 주기만큼의 시간이 자난 뒤 실행
+                    // - (ex) 주기가 1000ms라면 마지막 이벤트 발생 후 1000ms 뒤 실행
+                    // - 적용방법 : _.debounce(함수, 시간주기) => 새로운 함수
+                    // keyword:_.debounce(function(){코드}, 1000ms),
+                    keyword: _.debounce(function(){
+                        // console.log("debounce 실행");
+                        this.loadResult();
+                    },250)
+                },
+            });
+            app.mount("#app");
+        </script>
+</body>
+</html>

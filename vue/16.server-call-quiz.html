@@ -45,35 +45,17 @@
                 methods:{
                     // 메서드 생성 시 async 키워드를 쓰면 동기화된 처리를 보장
                     // async 메서드에서는 await 키워드 사용이 가능
+
+                    // async 함수 내에서 await 키워드를 사용하면 비동기를 동기처럼 코드 작성 가능하며 실행도 마찬가지
+
+                    // ...이 배열 앞에 붙으면 이를 전개 연산자라고 함
                     async loadList(){
                         const resp = await axios.get("http://localhost:8080/student/");
                         this.studentList.push(...resp.data);
                     }
                 },
                 created(){
-                    // 비동기 통신으로 서버에 데이터를 요청
-                    // - jquery
-                    // - fetch api
-                    // - axios
-
-                    // const app = this;
-                    // $.ajax({
-                    //     url :"http://localhost:8080/pocketmon/",
-                    //     method : "get",
-                    //     success : function(resp){
-                    //         // 정상적인 방법(원본에 추가)
-                    //         // 배열 앞에 점 세개를 찍으면 전개 연산자(풀어헤쳐라)
-                    //         app.pocketmonList.push(...resp);
-                    //     },
-                    //     error : function(){}
-                    // });
-
-                    // // axios를 사용
-                    // axios.get("http://localhost:8080/pocketmon/")
-                    //     .then(resp=>{
-                    //         this.pocketmonList.push(...resp.data);
-                    //     })
-                    //     .catch(err=>{});
+    
 
                     this.loadList();
                 },

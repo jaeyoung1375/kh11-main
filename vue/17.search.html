@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+       
+
+        <div id="app">
+           <h1>자동완성 예제</h1>
+
+           <input type="text" v-model="keyword" v-on:input="loadResult">
+     
+
+           <div v-for="(pocketmon,index) in result" :key="pocketmon.no">
+                {{pocketmon}}
+           </div>
+        </div>
+
+      
+        <script src="https://unpkg.com/vue@3.2.36"></script>
+        <script>
+   
+          const app = Vue.createApp({
+                // 데이터 설정 영역
+                data(){
+                    return {
+                     // 화면에서 사용할 데이터 선언
+
+                     // 검색어 입력창과 연결할 데이터
+                     keyword : "",
+
+                     // 검색 결과 데이터
+                     result : [],
+                    };
+                },
+            
+                computed:{
+                   
+                },
+                methods:{
+                    async loadResult(e){
+                         // v-model로는 한글과 같은 IME방식의 입력이 제데로 처리되지 않는다
+                        // 입력 발생시 수동으로 값을 갱신해야 정상적인 처리가 가능
+                        // [1] document.querySelector 사용
+                        // this.keyword = document.querySelector("").value;
+                        // [2] event.target 사용
+                        this.keyword = e.target.value;
+
+                        if(this.keyword.length == 0) return;
+                        const resp = await axios.get("http://localhost:8080/pocketmon/name/"+this.keyword);
+                        this.result.splice(0); // 전체삭제
+                        this.result.push(...resp.data); // 전개연산자로 추가
+                    },
+                },
+            });
+            app.mount("#app");
+        </script>
+</body>
+</html>

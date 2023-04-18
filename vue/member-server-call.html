@@ -5,27 +5,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/commons.css">
+     <!-- jquery CDN -->
+     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
     <title>Document</title>
 </head>
 <body>
        
 
         <div id="app">
-           
+           <div class="container-400">
+                <div class="row center">
+                    <h1>서버에서 불러온 과목 목록</h1>
+                </div>
+                
+                <div class="row" v-for="(member,index) in memberList">
+                    {{member}}
+                </div>
+
+                
+           </div>
         </div>
 
       
         <script src="https://unpkg.com/vue@3.2.36"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script>
    
           const app = Vue.createApp({
                 // 데이터 설정 영역
                 data(){
                     return {
-                     
+                        memberList : [],
                     };
                 },
             
@@ -33,8 +45,16 @@
                    
                 },
                 methods:{
-                    
+                    async loadList(){
+                        const resp = await axios.get("http://localhost:8080/member/");
+                        this.memberList.push(...resp.data);
+                        console.log(resp);
+                    }
                 },
+                created(){
+                    this.loadList();
+                }
+
             });
             app.mount("#app");
         </script>
