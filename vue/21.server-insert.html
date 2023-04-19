@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+       
+
+        <div id="app">
+           <div class="container-500">
+                <div class="row center">
+                    <h1>포켓몬스터 등록</h1>
+                </div>
+          
+                <!--
+                    등록을 위해서 할 수 있는 방법이 두가지 있다.
+                    [1] 기존처럼 Form을 만들고 전송버튼을 눌러 다른 컨트롤러로 이동 - 페이지가 바뀜
+                    [2] ajax를 이용해서 데이터를 서버에 전송 - 페이지가 안바뀜
+                -->
+
+                <div class="row">
+                    <label>번호</label>
+                    <input type="text" class="form-input w-100" v-model="pocketmon.no">
+                </div>
+                
+                <div class="row">
+                    <label>이름</label>
+                    <input type="text" class="form-input w-100" v-model="pocketmon.name" v-on:input="pocketmon.name = $event.target.value">
+                </div>
+                
+                <div class="row">
+                    <label>속성</label>
+                    <input type="text" class="form-input w-100" v-model="pocketmon.type" v-on:input="pocketmon.type = $event.target.value">
+                </div>
+
+                <div class="row">
+                    <button type="button" class="form-btn positive w-100" :disabled="!pocketmon.isAllValid"
+                                            @click="sendItem">
+                        <i class="fa-solid fa-plus"></i>
+                        등록
+                    </button>
+                </div>
+            
+           </div>
+
+
+        </div>
+
+      
+        <script src="https://unpkg.com/vue@3.2.36"></script>
+        <script>
+   
+          const app = Vue.createApp({
+                // 데이터 설정 영역
+                data(){
+                    return {
+                        pocketmon : {
+                            no : "",
+                            name :  "",
+                            type : "",
+                            // 객체 내에서 computed 대신 사용할 수 있는 구문
+                            // 읽기전용 변수
+                            get isNoValid(){
+                                const regex = /^[0-9]+$/;
+                                return regex.test(this.no);
+                            },
+                        
+                            // getIsNoValid(){} // 함수
+
+                            get isNameValid(){
+                                const regex = /^[가-힣]{1,7}$/;
+                                return regex.test(this.name);
+                            },
+
+                            get isTypeValid(){
+                                const regex = /^[가-힣]{1,3}$/;
+                                return regex.test(this.type);
+                            },
+                            get isAllValid(){
+                                return this.isNoValid && this.isNameValid && this.isTypeValid;
+                            },
+                            clear(){
+                                this.no = "";
+                                this.name = "";
+                                this.type = "";
+
+                            },
+                        },
+                    };
+                },
+            
+                computed:{
+                 
+                },
+                methods:{
+                    // 데이터 중 pocketmon을 서버로 전송
+                    async sendItem(){
+                        if(!this.pocketmon.isAllValid) return;
+
+                        const url = "http://localhost:8080/pocketmon/";
+                        const resp = await axios.post(url,this.pocketmon);
+                        // console.log(resp);
+
+                        this.pocketmon.clear();
+                    },
+                },
+                watch:{
+
+                },
+            });
+            app.mount("#app");
+        </script>
+</body>
+</html>
