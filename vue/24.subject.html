@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+       
+
+        <div id="app">
+           <div class="container-600">
+                <div class="row center">
+                    <h2>과목 목록</h2>
+                </div>
+                <div class="row" v-for="(subject,index) in subjectList" :key="subject.no">
+                    <div class="row">
+                        번호 : {{subjectList[index].no}}  
+                    </div>
+                    <div class="row">
+                        과목명 : {{subjectList[index].name}}
+                    </div>
+                    <div class="row">
+                        수강기간 : {{subjectList[index].period}}
+                    </div>
+                    <div class="row">
+                        수강료 : {{subjectList[index].price}}
+                    </div>
+                    <div class="row">
+                        수강유형 : {{subjectList[index].type}}
+                    </div>
+                   
+                    
+                    
+                   
+                    
+                </div>
+           </div>
+        </div>
+
+      
+        <script src="https://unpkg.com/vue@3.2.36"></script>
+        <script>
+   
+          const app = Vue.createApp({
+                // 데이터 설정 영역
+                data(){
+                    return {
+                        subjectList : [],
+                    };
+                },
+            
+                computed:{
+                   
+                },
+                methods:{
+                    async loadList(){
+                        const url = "http://localhost:8080/subject/";
+                        const resp = await axios.get(url);
+                        this.subjectList.push(...resp.data);
+                    }
+                },
+                watch:{
+
+                },
+                created(){
+                    this.loadList();
+                },
+            });
+            app.mount("#app");
+        </script>
+</body>
+</html>

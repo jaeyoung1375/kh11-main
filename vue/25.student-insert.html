@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <title>Document</title>
+</head>
+<body>
+       
+
+        <div id="app">
+           <div class="container-600">
+                <div class="row center">
+                    <h2>학생 등록</h2>
+                </div>
+                
+                <div class="row">
+                    <label>번호</label>
+                    <input type="text" v-model="student.no" class="form-input w-100">
+                </div>
+                <div class="row">
+                    <label>이름</label>
+                    <input type="text" v-model="student.name" class="form-input w-100">
+                </div>
+                <div class="row">
+                    <label>국어</label>
+                    <input type="text" v-model="student.korean" class="form-input w-100">
+                </div>
+                <div class="row">
+                    <label>영어</label>
+                    <input type="text" v-model="student.english" class="form-input w-100">
+                </div>
+                <div class="row">
+                    <label>수학</label>
+                    <input type="text" v-model="student.math" class="form-input w-100">
+                </div>
+                <div class="row">
+                    <button type="button" class="form-btn positive w-100" @click="insertBtn" :disabled="!student.isAllValid">등록</button>
+                </div>
+           </div>
+        </div>
+
+      
+        <script src="https://unpkg.com/vue@3.2.36"></script>
+        <script>
+   
+          const app = Vue.createApp({
+                // 데이터 설정 영역
+                data(){
+                    return {
+                        student : {
+                            no : "",
+                            name : "",
+                            korean : "",
+                            english : "",
+                            math : "",
+
+                            get isNoValid(){
+                                const regex = /^[0-9]+$/;
+                                return regex.test(this.no);
+                            },
+
+                            get isNameValid(){
+                                const regex = /^[가-힣]{1,9}$/;
+                                return regex.test(this.name);
+                            },
+                            
+                            get isKoreanValid(){
+                                const regex = /^[0-9]+$/;
+                                return regex.test(this.korean);
+                            },
+
+                            get isEnglishValid(){
+                                const regex = /^[0-9]+$/;
+                                return regex.test(this.english);
+                            },
+
+                            get isMathValid(){
+                                const regex = /^[0-9]+$/;
+                                return regex.test(this.math);
+                            },
+
+                            get isAllValid(){
+                                return this.isNoValid && this.isNameValid && this.isKoreanValid && this.isEnglishValid && this.isMathValid;
+                            },
+                            clear(){
+                                this.no = "";
+                                this.name = "";
+                                this.korean = "";
+                                this.english = "";
+                                this.math = "";
+                            },
+                        },
+                    };
+                },
+            
+                computed:{
+                   
+                },
+                methods:{
+                    async insertBtn(){
+                        if(!this.student.isAllValid) return;
+                        const url = "http://localhost:8080/student/";
+                        const resp = await axios.post(url,this.student);
+
+                        this.student.clear();
+
+                        Toastify({
+                            text: "등록완료",
+                            duration: 3000,
+                            destination: "https://github.com/apvarun/toastify-js",
+                            newWindow: true,
+                            close: true,
+                            gravity: "bottom", // `top` or `bottom`
+                            position: "right", // `left`, `center` or `right`
+                            // stopOnFocus: true, // Prevents dismissing of toast on hover
+                            style: {
+                                background: "linear-gradient(to right, #00b09b, #96c93d)",
+                            },
+                            onClick: function(){} // Callback after click
+                            }).showToast();
+                    },
+                },
+                watch:{
+
+                },
+                created(){
+                  
+                },
+            });
+            app.mount("#app");
+        </script>
+</body>
+</html>

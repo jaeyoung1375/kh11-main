@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+       
+
+        <div id="app">
+           <div class="container-600">
+                <div class="row center">
+                    <h2>학생 수정/삭제</h2>
+                </div>
+                <div class="row" v-for="(student,index) in studentList" :key="student.no">
+                    <div v-if="studentList[index].edit == true">
+                        번호 : {{studentList[index].no}}
+                        이름 : <input type="text" v-model="studentList[index].name">
+                        국어 : <input type="text" v-model="studentList[index].korean">
+                        영어 : <input type="text" v-model="studentList[index].english">
+                        수학 : <input type="text" v-model="studentList[index].math">
+                        <button type="button" @click="editItem(index)">수정</button>
+                        <button type="button" @click="changeDefault(index)">취소</button>
+                    </div>
+                    <div v-else>
+                        번호 : {{studentList[index].no}}
+                        번호 : {{studentList[index].name}}
+                        번호 : {{studentList[index].korean}}
+                        번호 : {{studentList[index].english}}
+                        번호 : {{studentList[index].math}}
+                        <button type="button" @click="changeEdit(index)">수정</button>
+                        <button type="button" @click="deleteItem(index)">삭제</button>
+                    </div>
+                </div>
+           </div>
+        </div>
+
+      
+        <script src="https://unpkg.com/vue@3.2.36"></script>
+        <script>
+   
+          const app = Vue.createApp({
+                // 데이터 설정 영역
+                data(){
+                    return {
+                        studentList : [],
+                        studentListCopy : [],
+                    };
+                },
+            
+                computed:{
+                   
+                },
+                methods:{
+                    async loadList(){
+                        const url = "http://localhost:8080/student/";
+                        this.studentList.splice(0);
+                        this.pocketmonListCopy.splice(0);
+                        const resp = await axios.get(url);
+                        this.studentList.push(...resp.data);
+
+                        const copy = _.cloneDeep(resp.data);
+                        this.studentListCopy.push(copy);
+                    },
+                    async deleteItem(index){
+                        const choice = window.confirm("정말 삭제하시겠습니까?");
+                        if(!choice) return;
+                        const no = this.studentList[index].no;
+                        const url = "http://localhost:8080/student/"+no
+
+                        const resp = await axios.delete(url);
+
+                        this.loadList();
+                        
+                    },
+                    async editItem(index){
+                        const url = "http://localhost:8080/student/";
+                        const resp = await axios.put(url,this.studentList[index]);
+
+                        this.loadList();
+                    },
+                    changeEdit(index){
+                        this.studentList[index].edit = true;
+                    },
+                    changeDefault(index){
+                        this.studentList[index].edit = false;
+                    },
+                    
+                },
+                watch:{
+
+                },
+                created(){
+                   this.loadList();
+                }
+            });
+            app.mount("#app");
+        </script>
+</body>
+</html>
