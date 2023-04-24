@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../css/commons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+       
+
+        <div id="app" class="container-600">
+           <div class="row center" style="background-color: #606060;">
+                <div class="row left" style="color:white; height: 140px;">
+                <h2>비밀번호 입력</h2> 
+                <h4>마우스로 비밀번호를 입력하세요</h4>
+                 </div>  
+                </div>
+                <div class="row mt-30">
+                    <input  class="form-input w-100" style="border-radius: 10px;"
+                    placeholder="비밀번호 입력" :value="selectedNumber" v-bind:type="inputType">
+                </div>
+                <div class="row">
+                    <input type="checkbox" name="check" v-model="showPassword">
+                    <label for="check">비밀번호 표시</label>
+                </div>
+                <div class="row" style="margin-left:200px;">
+                <div style="display:flex;">
+                <div v-for="(number,index) in numbers" :key="index" @click="selectNumber(number)">
+                    <div v-if="index >=0 && index < 3" >
+                        <button style="padding:10px; margin-left:10px;">
+                            <span>{{number}}</span>
+                        </button>
+                    </div>
+                 
+                
+                </div> 
+                </div> 
+               
+                <div style="display:flex">
+                    <div v-for="(number,index) in numbers" :key="index" @click="selectNumber(number)">
+                      
+                        <div v-if="index >=3 && index < 6">
+                            <button style="padding:10px; margin-left:10px;">
+                                <span>{{number}}</span>
+                            </button>
+                        </div>
+                    
+                    </div> 
+                    </div> 
+
+                    <div style="display:flex;">
+                        <div v-for="(number,index) in numbers" :key="index" @click="selectNumber(number)">
+                          
+                            <div v-if="index >=6 && index < 9">
+                                <button style="padding:10px; margin-left:10px;">
+                                    <span>{{number}}</span>
+                                </button>
+                            </div>
+                        
+                        </div> 
+                        </div> 
+                        <div v-for="(number,index) in numbers" :key="index" @click="selectNumber(number)">
+                          
+                            <div v-if="index == 9">
+                                <button style="padding:10px; margin-left:10px; margin-top:10px;">
+                                    <span>{{number}}</span>
+                                </button>
+                            </div>
+                        
+                        </div> 
+                        </div>
+              <div class="row">
+                <button class="form-btn w-100 positive" @click="shuffle">섞기</button>
+              </div>
+              <div class="row">
+                <button class="form-btn w-100 negative" @click="eraser">지우기</button>
+              </div>
+              
+
+                
+        </div>
+
+      
+        <script src="https://unpkg.com/vue@3.2.36"></script>
+        <script>
+   
+          const app = Vue.createApp({
+                // 데이터 설정 영역
+                data(){
+                    return {
+                        numbers : [1,2,3,4,5,6,7,8,9,0],
+                        selectedNumber : "",
+
+                        showPassword : false,
+                        inputType : 'password',
+                    };
+                },
+            
+                computed:{
+                   
+                },
+                methods:{
+                    shuffle(){
+                        for(let i = this.numbers.length - 1; i > 0; i--){
+                            const j = Math.floor(Math.random() * (i+1));
+                            [this.numbers[i], this.numbers[j]] = [this.numbers[j],this.numbers[i]];
+                        }
+                    },
+                    selectNumber(number){
+                        this.selectedNumber += number;
+                    },
+                    eraser(){
+                        this.selectedNumber= "";
+                    }
+                },
+                watch:{
+                    showPassword(){
+                        this.inputType = this.showPassword ? 'text' : 'password';
+                    }
+                },
+            });
+            app.mount("#app");
+        </script>
+</body>
+</html>
