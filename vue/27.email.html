@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/commons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+       
+
+        <div id="app">
+           <!-- 이메일 입력줄 -->
+           <div>
+                <input type="text" v-model="email" placeholder="이메일 입력" :disabled="checkResult == 'Y'">
+                <button @click="sendCertMail" :disabled="sending" v-if="checkResult != 'Y'">
+                    <span v-if="!sending">
+                        <span v-if="sendingCount == 0">인증번호 보내기</span>
+                        <span v-else>인증번호 재전송</span>
+                    </span>
+                    <span v-else>
+                        <i class="fa-solid fa-cog fa-spin"></i>
+                        전송중...
+                    </span>
+                
+                    </button>
+           </div>
+
+           <!-- 인증번호 입력줄-->
+           <div>
+                <div v-if="sendingCount > 0 && checkResult != 'Y'">
+                    <input type="text" v-model="secret" placeholder="인증번호 입력" :disabled="checkResult == 'Y'">
+                    <button @click="sendCheck">확인</button>
+
+                    <div v-if="checkResult == 'N'">잘못된 인증번호입니다</div>
+                </div>
+                <div v-else-if="checkResult == 'Y'">
+                    인증성공
+                    <a href="#" @click.prevent="checkResult = null">
+                        다시 인증하기
+                    </a>
+                </div>
+           </div>
+
+        </div>
+
+        
+
+      
+        <script src="https://unpkg.com/vue@3.2.36"></script>
+        <script>
+   
+          const app = Vue.createApp({
+                // 데이터 설정 영역
+                data(){
+                    return {
+                        email : "",
+
+                        // 이메일이 발송중인지를 기록하는 변수
+                        sending : false,
+
+                        // 이메일을 몇 번 보냈는지 기록하는 변수
+                        sendingCount : 0,
+
+                        // 이메일 인증 결과를 기록하는 변수(null / Y / N)
+                        checkResult : null,
+                    };
+                },
+            
+                computed:{
+                   
+                },
+                methods:{
+                    async sendCertMail(){
+                        this.sending = true;
+                        const url = "http://localhost:8080/cert/";
+                        const data = {email:this.email};
+                        const resp = await axios.post(url,data);
+                        
+                        this.sending = false;
+                        this.sendingCount++;
+                    },
+                    async sendCheck(){
+                        const url = "http://localhost:8080/cert/check";
+                        const data = {
+                            email : this.email,
+                            secret : this.secret,
+                        };
+                        const resp = await axios.post(url,data);
+                        // 완료 작업
+                        // console.log(resp.data);
+                        this.checkResult = resp.data; // Y 또는 N
+                    },
+                },
+                watch:{
+
+                },
+            });
+            app.mount("#app");
+        </script>
+</body>
+</html>
